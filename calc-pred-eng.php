@@ -3,7 +3,7 @@
  * Plugin Name: Calc Pred Eng
  * Plugin URI: https://github.com/gitimmhub/calc-pred-eng
  * Description: Calculadora de viabilidade construtiva.
- * Version: 1.0.3
+ * Version: 1.0.1
  * Author: Matheus Barbiéri
  */
 
@@ -25,12 +25,18 @@ if (!defined('ABSPATH')) {
 
 // CSS
 function calculadora_styles() {
+//
+//    wp_enqueue_style(
+//            'calc-pred-eng-style',
+//            plugin_dir_url(__FILE__) . 'style.css'
+//    );
 
     wp_enqueue_style(
             'calc-pred-eng-style',
-            plugin_dir_url(__FILE__) . 'style.css'
+            plugin_dir_url(__FILE__) . 'style.css',
+            array(),
+            time()
     );
-
 }
 
 add_action('wp_enqueue_scripts', 'calculadora_styles');
@@ -42,7 +48,7 @@ function calculadora_scripts() {
             'calc-pred-eng-script',
             plugin_dir_url(__FILE__) . 'script.js',
             array(),
-            false,
+            time(),
             true
     );
 
@@ -107,30 +113,6 @@ function calculadora_shortcode() {
                     <input type="number" placeholder="Ex: 2">
                 </div>
 
-<!--                <div class="campo-pavimentos">-->
-<!---->
-<!--                    <label for="pavimentos-select">-->
-<!--                        Número de Pavimentos-->
-<!--                    </label>-->
-<!---->
-<!--                    <select id="pavimentos-select" name="pavimentos">-->
-<!---->
-<!--                        --><?php //for ($i = 1; $i <= 25; $i++): ?>
-<!---->
-<!--                            <option value="--><?php //echo $i; ?><!--">-->
-<!---->
-<!--                                --><?php //echo $i; ?>
-<!---->
-<!--                                Pavimento--><?php //echo $i > 1 ? 's' : ''; ?>
-<!---->
-<!--                            </option>-->
-<!---->
-<!--                        --><?php //endfor; ?>
-<!---->
-<!--                    </select>-->
-<!---->
-<!--                </div>-->
-
                 <div class="campo-cub">
 
                     <label for="cub-select">
@@ -155,7 +137,25 @@ function calculadora_shortcode() {
 
                 </div>
 
+                <div class="campo-nome">
+                    <label>Nome</label>
+                    <input type="text" id="nome">
+                </div>
+
+                <div class="campo-email">
+                    <label>Email</label>
+                    <input type="email" id="email">
+                </div>
+
+                <div class="campo-whatsapp">
+                    <label>WhatsApp</label>
+                    <input type="text" id="whatsapp">
+                </div>
+
+
             </div>
+
+
 
             <!-- FOOTER -->
             <div class="calculadora-footer">
@@ -163,8 +163,8 @@ function calculadora_shortcode() {
                 <!-- BOTÃO -->
                 <div class="acoes">
 
-                    <button id="btn-calcular">
-                        Calcular
+                    <button id="btn-enviar">
+                        Gerar Projeto
                     </button>
 
                 </div>
@@ -230,5 +230,35 @@ function calculadora_admin_page() {
     </div>
 
     <?php
+}
+
+add_action('wp_ajax_calc_pred_eng_send', 'calc_pred_eng_send');
+add_action('wp_ajax_nopriv_calc_pred_eng_send', 'calc_pred_eng_send');
+
+function calc_pred_eng_send() {
+
+    $dados = json_decode(file_get_contents('php://input'), true);
+
+    $nome = sanitize_text_field($dados['nome']);
+    $email = sanitize_email($dados['email']);
+    $whatsapp = sanitize_text_field($dados['whatsapp']);
+
+    $mensagem = "
+Novo lead recebido:
+
+Nome: $nome
+Email: $email
+WhatsApp: $whatsapp
+";
+
+    wp_mail(
+            'matheustimm02@gmail.com',
+            'Novo Lead - Calc Pred Eng',
+            $mensagem
+    );
+
+    wp_send_json_success(array(
+            'message' => 'Email enviado com sucesso!'
+    ));
 }
 

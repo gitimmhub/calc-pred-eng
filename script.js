@@ -1,12 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const botao = document.getElementById('btn-calcular');
+    const botao = document.getElementById('btn-enviar');
 
     if (!botao) return;
 
-    botao.addEventListener('click', main);
+    botao.addEventListener('click', () => {
+        main();
+        enviarFormulario();
+    });
 
 });
+
+async function enviarFormulario() {
+
+    const dados = {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        whatsapp: document.getElementById('whatsapp').value
+    };
+
+    const response = await fetch(
+        '/wordpress/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
+        // '/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dados)
+        }
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+
+}
 
 function getDados(){
 
@@ -229,55 +258,55 @@ function calcularResultados(dados, param) {
     r.custoPorUnidade = r.qtdApartamento > 0 ? r.custoDeObra / r.qtdApartamento : 0; //EXIBE
 
     console.log(`
-===== RESULTADOS =====
-
-Pavimentos: ${r.pavimentos}
-
-Escadas: ${r.escadas}
-Recuo Lateral: ${r.recuoLateral}
-Recuo Fundos: ${r.recuoFundos}
-
-Ocupação Máxima Pavimento: ${r.ocupacaoMaxPavimento}
-Área Embasamento: ${r.areaEmbasamento}
-Escada Embasamento: ${r.escadaEmbasamento}
-Área Estacionamento: ${r.areaEstacionamento}
-Vagas: ${r.vagas}
-
-Largura Útil: ${r.larguraUtil}
-Profundidade Útil: ${r.profundidadeUtil}
-
-Área Laje Pavimentos Tipo: ${r.areaLajePavimentosTipo}
-
-Elevador Andar: ${r.elevadorAndar}
-Área Útil Apartamento Tipo: ${r.areaUtilApartamentoTipo}
-
-Área Dormitório: ${r.areaDormitorio}
-Área Banheiro: ${r.areaBanheiro}
-Área Lavabo: ${r.areaLavabo}
-Área Sacada: ${r.areaSacada}
-Cozinha + Sala: ${r.cozinhaSala}
-
-Tamanho Apartamento: ${r.tamanhoApartamento}
-
-Apartamentos por Andar: ${r.apartamentoAndar}
-Quantidade Apartamentos: ${r.qtdApartamento}
-
-Area Total Construida Embasamento: ${r.areaEmbasamento}
-Área Total Construído Tipo: ${r.areaTotalConstruidoTipo}
-Área Total Empreendimento: ${r.areaTotalEmpreendimento}
-Área Total Privativa: ${r.areaTotalPrivativa}
-
-Coeficiente Privativo: ${(r.coeficientePrivativo * 100).toFixed(2)}%
-
-Multiplicador CUB: ${r.multiplicadorCUB}
-
-Custo de Obra: ${r.custoDeObra}
-
-Custo por Unidade: ${r.custoPorUnidade}
-
-Aviso Vagas: ${r.avisoVagas}
-======================
-`);
+        ===== RESULTADOS =====
+        
+        Pavimentos: ${r.pavimentos}
+        
+        Escadas: ${r.escadas}
+        Recuo Lateral: ${r.recuoLateral}
+        Recuo Fundos: ${r.recuoFundos}
+        
+        Ocupação Máxima Pavimento: ${r.ocupacaoMaxPavimento}
+        Área Embasamento: ${r.areaEmbasamento}
+        Escada Embasamento: ${r.escadaEmbasamento}
+        Área Estacionamento: ${r.areaEstacionamento}
+        Vagas: ${r.vagas}
+        
+        Largura Útil: ${r.larguraUtil}
+        Profundidade Útil: ${r.profundidadeUtil}
+        
+        Área Laje Pavimentos Tipo: ${r.areaLajePavimentosTipo}
+        
+        Elevador Andar: ${r.elevadorAndar}
+        Área Útil Apartamento Tipo: ${r.areaUtilApartamentoTipo}
+        
+        Área Dormitório: ${r.areaDormitorio}
+        Área Banheiro: ${r.areaBanheiro}
+        Área Lavabo: ${r.areaLavabo}
+        Área Sacada: ${r.areaSacada}
+        Cozinha + Sala: ${r.cozinhaSala}
+        
+        Tamanho Apartamento: ${r.tamanhoApartamento}
+        
+        Apartamentos por Andar: ${r.apartamentoAndar}
+        Quantidade Apartamentos: ${r.qtdApartamento}
+        
+        Area Total Construida Embasamento: ${r.areaEmbasamento}
+        Área Total Construído Tipo: ${r.areaTotalConstruidoTipo}
+        Área Total Empreendimento: ${r.areaTotalEmpreendimento}
+        Área Total Privativa: ${r.areaTotalPrivativa}
+        
+        Coeficiente Privativo: ${(r.coeficientePrivativo * 100).toFixed(2)}%
+        
+        Multiplicador CUB: ${r.multiplicadorCUB}
+        
+        Custo de Obra: ${r.custoDeObra}
+        
+        Custo por Unidade: ${r.custoPorUnidade}
+        
+        Aviso Vagas: ${r.avisoVagas}
+        ======================
+        `);
 
     return r;
 }
