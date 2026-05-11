@@ -221,7 +221,7 @@ function calculadora_admin_page() {
 
     <div class="wrap">
 
-        <h1>Calculadora</h1>
+        <h1>Calc Pred</h1>
 
         <p>
             Seu plugin está funcionando.
