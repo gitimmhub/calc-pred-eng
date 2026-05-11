@@ -1,0 +1,246 @@
+/* style.css - Estilo Corrigido para o plugin Calculadora */
+
+/* style.css - Corrigido */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+:root{
+    --bg:#f6f8fa;
+    --card:#ffffff;
+    --accent:#0b76ff;
+    --muted:#6b7280;
+    --success:#10b981;
+    --danger:#ef4444;
+    --radius:10px;
+    --shadow:0 6px 20px rgba(11,118,255,0.06);
+    --card-shadow:0 8px 30px rgba(18,24,40,0.04);
+    --max-width:980px;
+    --gap:16px;
+    font-family: Montserrat, system-ui, -apple-system, sans-serif;
+}
+
+/* 1. CORREÇÃO VITAL: Garante que padding e border não aumentem o tamanho dos elementos */
+.calculadora-wrapper,
+.calculadora-wrapper * {
+    box-sizing: border-box;
+}
+
+.calculadora-wrapper{
+    display:flex;
+    justify-content:center;
+    padding:36px 16px;
+    background:linear-gradient(180deg, rgba(11,118,255,0.03), transparent 40%), var(--bg);
+    width: 100%;
+}
+
+.calculadora-box{
+    width:100%;
+    max-width:var(--max-width);
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--card-shadow);
+    padding:28px;
+    border:1px solid rgba(16,24,40,0.04);
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    overflow: hidden; /* Garante que nada saia da borda arredondada */
+}
+
+/* 2. GRID SEGURO: minmax(0, 1fr) impede que a coluna cresça além do necessário */
+.calculadora-form{
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+    align-items: end;
+}
+
+/* 3. LABELS: Impede que textos longos (como "Quantidade Sacadas por Apartamento") empurrem a coluna */
+.calculadora-form label{
+    font-size:13px;
+    color:var(--muted);
+    font-weight:600;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
+    margin-bottom: 4px;
+}
+
+.calculadora-form input[type="number"],
+.calculadora-form select{
+    width: 100%; /* Força o input a ficar dentro da coluna do grid */
+    height:44px;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid rgba(15,23,42,0.12);
+    background:#fff;
+    font-size:15px;
+    outline:none;
+    transition: all 0.2s;
+}
+
+.calculadora-form input:focus,
+.calculadora-form select:focus{
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(11,118,255,0.1);
+}
+
+#btn-calcular{
+    background: var(--accent);
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+    width:100%;
+    transition: opacity 0.2s;
+}
+
+#btn-calcular:hover { opacity: 0.9; }
+
+/* 4. RESPONSIVIDADE: Ajusta as colunas conforme a tela diminui */
+@media (max-width: 900px) {
+    .calculadora-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+    .calculadora-form { grid-template-columns: 1fr; }
+    .calculadora-box { padding: 20px; }
+}
+
+/* Campos individuais */
+.calculadora-form > div {
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    width: 100%; /* Garante que o campo não extrapole a coluna */
+}
+
+/* Labels */
+.calculadora-form label{
+    font-size:13px;
+    color:var(--muted);
+    font-weight:600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Inputs e selects */
+.calculadora-form input[type="number"],
+.calculadora-form select{
+    width: 100%; /* Vital para não sair da tela */
+    height:44px;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid rgba(15,23,42,0.1);
+    background:#fff;
+    box-shadow: var(--shadow);
+    font-size:15px;
+    color:#0f172a;
+    outline:none;
+    transition: all .12s ease;
+}
+
+.calculadora-form input:focus,
+.calculadora-form select:focus{
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(11,118,255,0.1);
+}
+
+/* Ações (botão) */
+.acoes{
+    flex: 1 1 200px; /* Permite crescer e encolher */
+    display:flex;
+    align-items:center;
+}
+
+/* Botão principal */
+#btn-calcular{
+    background:linear-gradient(90deg,var(--accent), #4aa3ff);
+    color:#fff;
+    border:none;
+    padding:14px 20px;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 8px 24px rgba(11,118,255,0.14);
+    transition: transform .12s, box-shadow .12s;
+    width:100%;
+}
+
+#btn-calcular:hover{ transform:translateY(-2px); box-shadow:0 10px 28px rgba(11,118,255,0.2); }
+
+/* Resultado */
+.resultado-box{
+    flex: 2 1 400px; /* Ocupa mais espaço que o botão */
+    background: #f9fafb;
+    border-radius:10px;
+    padding:18px;
+    border:1px dashed rgba(11,118,255,0.2);
+    min-width: 0; /* Importante para flexbox não quebrar com conteúdo longo */
+}
+
+/* Conteúdo do resultado */
+#resultado{
+    font-size:14px;
+    color:#111827;
+    word-wrap: break-word; /* Evita que números gigantes quebrem o layout */
+}
+
+.result-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:6px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.calculadora-content{
+    display:flex;
+    gap:24px;
+    align-items:flex-start;
+}
+
+.calculadora-left{
+    flex:2;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.resultado-box{
+    flex:1;
+    min-width:280px;
+    position:sticky;
+    top:20px;
+}
+
+.result-row:last-child { border: none; }
+
+.alerta-vagas{
+    margin-top:16px;
+    padding:12px;
+    border-radius:8px;
+    background:#fff3cd;
+    color:#856404;
+    border:1px solid #ffeeba;
+    font-size:14px;
+    font-weight:600;
+}
+
+/* Responsividade específica */
+@media (max-width:768px){
+    .calculadora-form{ grid-template-columns: repeat(2, 1fr); }
+    .calculadora-footer{ flex-direction: column; }
+    .acoes, .resultado-box{ width: 100%; flex: 1 1 auto; }
+}
+
+@media (max-width:480px){
+    .calculadora-form{ grid-template-columns: 1fr; }
+    .calculadora-box{ padding: 15px; }
+}
+
+/* Helper */
+.hidden{ display:none !important; }
