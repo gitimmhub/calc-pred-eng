@@ -11,18 +11,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+
+// '/wordpress/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
+// 'https://hook.us2.make.com/lcvmpsvmvw4odjj2ktj7gnp48vlff12a',
+// '/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
+
+
 async function enviarFormulario() {
 
+    const dadosEntrada = getDados();
+
+    const parametros = getParametros();
+
+    const resultados = calcularResultados(dadosEntrada, parametros);
+
+    if (!resultados) return;
+
     const dados = {
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        whatsapp: document.getElementById('whatsapp').value
+
+        // CLIENTE
+        nome: document.getElementById('nome')?.value || '',
+        email: document.getElementById('email')?.value || '',
+        whatsapp: document.getElementById('whatsapp')?.value || '',
+
+        // ENTRADA
+        largura: dadosEntrada.largura,
+        profundidade: dadosEntrada.profundidade,
+        garagens: dadosEntrada.garagens,
+        andares: dadosEntrada.andares,
+        dormitorios: dadosEntrada.dormitorios,
+        banheiros: dadosEntrada.banheiros,
+        lavabos: dadosEntrada.lavabos,
+        sacadas: dadosEntrada.sacadas,
+        elevadores: dadosEntrada.elevadores,
+        cub: dadosEntrada.cub,
+
+        // RESULTADOS
+        pavimentos: resultados.pavimentos,
+        escadas: resultados.escadas,
+        recuo_lateral: resultados.recuoLateral,
+        recuo_fundos: resultados.recuoFundos,
+
+        ocupacao_maxima_pavimento: resultados.ocupacaoMaxPavimento,
+        area_embasamento: resultados.areaEmbasamento,
+        escada_embasamento: resultados.escadaEmbasamento,
+        area_estacionamento: resultados.areaEstacionamento,
+        vagas: resultados.vagas,
+
+        largura_util: resultados.larguraUtil,
+        profundidade_util: resultados.profundidadeUtil,
+
+        area_laje_tipo: resultados.areaLajePavimentosTipo,
+
+        elevador_andar: resultados.elevadorAndar,
+        area_util_apartamento: resultados.areaUtilApartamentoTipo,
+
+        area_dormitorio: resultados.areaDormitorio,
+        area_banheiro: resultados.areaBanheiro,
+        area_lavabo: resultados.areaLavabo,
+        area_sacada: resultados.areaSacada,
+        cozinha_sala: resultados.cozinhaSala,
+
+        tamanho_apartamento: resultados.tamanhoApartamento,
+
+        apartamentos_por_andar: resultados.apartamentoAndar,
+        quantidade_apartamentos: resultados.qtdApartamento,
+
+        area_total_embasamento: resultados.areaEmbasamento,
+        area_total_tipo: resultados.areaTotalConstruidoTipo,
+        area_total_empreendimento: resultados.areaTotalEmpreendimento,
+        area_total_privativa: resultados.areaTotalPrivativa,
+
+        coeficiente_privativo: resultados.coeficientePrivativo,
+
+        multiplicador_cub: resultados.multiplicadorCUB,
+
+        custo_obra: resultados.custoDeObra,
+
+        custo_por_unidade: resultados.custoPorUnidade,
+
+        aviso_vagas: resultados.avisoVagas
     };
 
+    console.log(dados);
+
     const response = await fetch(
-        '/wordpress/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
-        // '/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
-        {
+        'https://integracao.wgbengenharia.com/webhook-test/receber-wp',
+    {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -31,10 +106,9 @@ async function enviarFormulario() {
         }
     );
 
-    const result = await response.json();
+    const result = await response.text();
 
     console.log(result);
-
 }
 
 function getDados(){
