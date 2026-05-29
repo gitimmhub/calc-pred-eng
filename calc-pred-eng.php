@@ -3,7 +3,7 @@
  * Plugin Name: Calc Pred Eng
  * Plugin URI: https://github.com/gitimmhub/calc-pred-eng
  * Description: Calculadora de viabilidade construtiva.
- * Version: 1.0.1
+ * Version: 1.1
  * Author: Matheus Barbiéri
  */
 
@@ -66,51 +66,83 @@ function calculadora_shortcode() {
 
         <div class="calculadora-box">
             <!-- FORMULÁRIO -->
+
+            <div class="aviso-minimo">
+                Valores abaixo do mínimo serão convertidos automaticamente.
+            </div>
+
             <div class="calculadora-form">
+
+                <div class="campo-nome campo-contato">
+                    <label>Nome</label>
+
+                    <div class="input-icon">
+                        <span>👤</span>
+                        <input type="text" id="nome" placeholder="Seu nome">
+                    </div>
+                </div>
+
+                <div class="campo-email campo-contato">
+                    <label>Email</label>
+
+                    <div class="input-icon">
+                        <span>✉️</span>
+                        <input type="email" id="email" placeholder="seuemail@email.com">
+                    </div>
+                </div>
+
+                <div class="campo-whatsapp campo-contato">
+                    <label>WhatsApp</label>
+
+                    <div class="input-icon">
+                        <span>📱</span>
+                        <input type="text" id="whatsapp" placeholder="(47) 99999-9999">
+                    </div>
+                </div>
 
                 <div class="campo-largura">
                     <label>Largura do Terreno</label>
-                    <input type="number" placeholder="Ex: 40">
+                    <input type="number" min="3" placeholder="Min = 3">
                 </div>
 
                 <div class="campo-profundidade">
                     <label>Profundidade do Terreno</label>
-                    <input type="number" placeholder="Ex: 43">
+                    <input type="number" min="10" placeholder="Min = 10">
                 </div>
 
                 <div class="campo-garagem">
                     <label>Pavimentos de Garagem</label>
-                    <input type="number" placeholder="Ex: 3">
+                    <input type="number" min="1" placeholder="Min = 1">
                 </div>
 
                 <div class="campo-andares">
                     <label>Andares com apartamentos</label>
-                    <input type="number" placeholder="Ex: 25">
+                    <input type="number" min="2" placeholder="Min = 2">
                 </div>
 
                 <div class="campo-dormitorios">
                     <label>Quantidade de Dormitórios</label>
-                    <input type="number" placeholder="Ex: 2">
+                    <input type="number" min="1" placeholder="Min = 1">
                 </div>
 
                 <div class="campo-banheiros">
                     <label>Quantidade de Banheiros</label>
-                    <input type="number" placeholder="Ex: 2">
+                    <input type="number" min="1" placeholder="Min = 1">
                 </div>
 
                 <div class="campo-lavabos">
                     <label>Quantidade de Lavabo</label>
-                    <input type="number" placeholder="Ex: 1">
+                    <input type="number" min="0" placeholder="Min = 0">
                 </div>
 
                 <div class="campo-sacadas">
                     <label>Sacadas por Apartamento</label>
-                    <input type="number" placeholder="Ex: 1">
+                    <input type="number" min="0" placeholder="Min = 0">
                 </div>
 
                 <div class="campo-elevador">
                     <label>Elevadores por Andar</label>
-                    <input type="number" placeholder="Ex: 2">
+                    <input type="number" min="0" placeholder="Min = 0">
                 </div>
 
                 <div class="campo-cub">
@@ -136,22 +168,6 @@ function calculadora_shortcode() {
                     </select>
 
                 </div>
-
-                <div class="campo-nome">
-                    <label>Nome</label>
-                    <input type="text" id="nome">
-                </div>
-
-                <div class="campo-email">
-                    <label>Email</label>
-                    <input type="email" id="email">
-                </div>
-
-                <div class="campo-whatsapp">
-                    <label>WhatsApp</label>
-                    <input type="text" id="whatsapp">
-                </div>
-
 
             </div>
 

@@ -1,246 +1,442 @@
-/* style.css - Estilo Corrigido para o plugin Calculadora */
-
-/* style.css - Corrigido */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-:root{
-    --bg:#f6f8fa;
-    --card:#ffffff;
-    --accent:#0b76ff;
-    --muted:#6b7280;
-    --success:#10b981;
-    --danger:#ef4444;
-    --radius:10px;
-    --shadow:0 6px 20px rgba(11,118,255,0.06);
-    --card-shadow:0 8px 30px rgba(18,24,40,0.04);
-    --max-width:980px;
-    --gap:16px;
+
+/* ============================================================
+   VARIÁVEIS
+   ============================================================ */
+:root {
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --accent: #378ADD;
+    --accent-hover: #2a6db8;
+    --muted: #6b7280;
+    --text: #0f172a;
+    --border: rgba(15, 23, 42, 0.10);
+    --border-focus: #378ADD;
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+    --gap: 12px;
     font-family: Montserrat, system-ui, -apple-system, sans-serif;
 }
 
-/* 1. CORREÇÃO VITAL: Garante que padding e border não aumentem o tamanho dos elementos */
+/* ============================================================
+   BOX-SIZING GLOBAL
+   ============================================================ */
 .calculadora-wrapper,
 .calculadora-wrapper * {
     box-sizing: border-box;
 }
 
-.calculadora-wrapper{
-    display:flex;
-    justify-content:center;
-    padding:36px 16px;
-    background:linear-gradient(180deg, rgba(11,118,255,0.03), transparent 40%), var(--bg);
+/* ============================================================
+   WRAPPER
+   ============================================================ */
+.calculadora-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+    background: var(--bg);
     width: 100%;
 }
 
-.calculadora-box{
-    width:100%;
-    max-width:var(--max-width);
-    background:var(--card);
-    border-radius:var(--radius);
-    box-shadow:var(--card-shadow);
-    padding:28px;
-    border:1px solid rgba(16,24,40,0.04);
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    overflow: hidden; /* Garante que nada saia da borda arredondada */
+/* ============================================================
+   CARD PRINCIPAL
+   ============================================================ */
+.calculadora-box {
+    width: 100%;
+    max-width: 1200px; /* Aumentado de 960px para 1200px */
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-/* 2. GRID SEGURO: minmax(0, 1fr) impede que a coluna cresça além do necessário */
-.calculadora-form{
-    display:grid;
+/* ============================================================
+   CABEÇALHO DO CARD
+   ============================================================ */
+.calculadora-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.calculadora-header-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: #e8f1fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.calculadora-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 2px;
+}
+
+.calculadora-header p {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* ============================================================
+   AVISO INFORMATIVO
+   ============================================================ */
+.aviso-minimo {
+    margin: 20px 24px 0;
+    padding: 10px 14px;
+    background: #e8f1fb;
+    color: #1d5fa5;
+    border: 1px solid #b5d4f4;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aviso-minimo::before {
+    content: "ℹ";
+    font-size: 15px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   SEÇÕES DO FORMULÁRIO
+   ============================================================ */
+.calculadora-section {
+    padding: 20px 24px;
+}
+
+.calculadora-section + .calculadora-section {
+    border-top: 1px solid var(--border);
+}
+
+.calculadora-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+}
+
+/* ============================================================
+   FORMULÁRIO — GRID
+   ============================================================ */
+.calculadora-form {
+    display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--gap);
     align-items: end;
 }
 
-/* 3. LABELS: Impede que textos longos (como "Quantidade Sacadas por Apartamento") empurrem a coluna */
-.calculadora-form label{
-    font-size:13px;
-    color:var(--muted);
-    font-weight:600;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
-    margin-bottom: 4px;
+/* Campos de contato sempre em linha de 3 */
+.campo-contato {
+    grid-column: span 1;
 }
 
-.calculadora-form input[type="number"],
-.calculadora-form select{
-    width: 100%; /* Força o input a ficar dentro da coluna do grid */
-    height:44px;
-    padding:10px 12px;
-    border-radius:8px;
-    border:1px solid rgba(15,23,42,0.12);
-    background:#fff;
-    font-size:15px;
-    outline:none;
-    transition: all 0.2s;
+/* ============================================================
+   CAMPOS INDIVIDUAIS
+   ============================================================ */
+.calculadora-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    column-gap: 12px;
+    row-gap: 18px; /* aumenta a altura */
+
+    align-items: end;
 }
 
-.calculadora-form input:focus,
-.calculadora-form select:focus{
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(11,118,255,0.1);
-}
-
-#btn-calcular{
-    background: var(--accent);
-    color:#fff;
-    border:none;
-    padding:14px;
-    border-radius:10px;
-    font-weight:700;
-    cursor:pointer;
-    width:100%;
-    transition: opacity 0.2s;
-}
-
-#btn-calcular:hover { opacity: 0.9; }
-
-/* 4. RESPONSIVIDADE: Ajusta as colunas conforme a tela diminui */
-@media (max-width: 900px) {
-    .calculadora-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-@media (max-width: 600px) {
-    .calculadora-form { grid-template-columns: 1fr; }
-    .calculadora-box { padding: 20px; }
-}
-
-/* Campos individuais */
-.calculadora-form > div {
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    width: 100%; /* Garante que o campo não extrapole a coluna */
-}
-
-/* Labels */
-.calculadora-form label{
-    font-size:13px;
-    color:var(--muted);
-    font-weight:600;
+.calculadora-form label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: block;
 }
 
-/* Inputs e selects */
+/* ============================================================
+   INPUTS COM ÍCONE
+   ============================================================ */
+.input-icon {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: #fff;
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input-icon:focus-within {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.12);
+}
+
+.input-icon span {
+    width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--accent);
+    background: #f8fbff;
+    border-right: 1px solid var(--border);
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.input-icon input {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    height: 100%;
+    width: 100%;
+    padding: 0 12px !important;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    outline: none;
+}
+
+/* ============================================================
+   INPUTS NUMÉRICOS E SELECT (sem ícone)
+   ============================================================ */
 .calculadora-form input[type="number"],
-.calculadora-form select{
-    width: 100%; /* Vital para não sair da tela */
-    height:44px;
-    padding:10px 12px;
-    border-radius:8px;
-    border:1px solid rgba(15,23,42,0.1);
-    background:#fff;
-    box-shadow: var(--shadow);
-    font-size:15px;
-    color:#0f172a;
-    outline:none;
-    transition: all .12s ease;
+.calculadora-form select {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-.calculadora-form input:focus,
-.calculadora-form select:focus{
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(11,118,255,0.1);
+.calculadora-form select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 36px;
+    cursor: pointer;
 }
 
-/* Ações (botão) */
-.acoes{
-    flex: 1 1 200px; /* Permite crescer e encolher */
-    display:flex;
-    align-items:center;
+.calculadora-form input[type="number"]:focus,
+.calculadora-form select:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.12);
 }
 
-/* Botão principal */
-#btn-calcular{
-    background:linear-gradient(90deg,var(--accent), #4aa3ff);
-    color:#fff;
-    border:none;
-    padding:14px 20px;
-    border-radius:10px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 8px 24px rgba(11,118,255,0.14);
-    transition: transform .12s, box-shadow .12s;
-    width:100%;
+.calculadora-form input[type="number"]::placeholder {
+    color: #b0b7c3;
+    font-size: 13px;
 }
 
-#btn-calcular:hover{ transform:translateY(-2px); box-shadow:0 10px 28px rgba(11,118,255,0.2); }
-
-/* Resultado */
-.resultado-box{
-    flex: 2 1 400px; /* Ocupa mais espaço que o botão */
-    background: #f9fafb;
-    border-radius:10px;
-    padding:18px;
-    border:1px dashed rgba(11,118,255,0.2);
-    min-width: 0; /* Importante para flexbox não quebrar com conteúdo longo */
+/* Remove setas do input number */
+.calculadora-form input[type="number"]::-webkit-inner-spin-button,
+.calculadora-form input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-/* Conteúdo do resultado */
-#resultado{
-    font-size:14px;
-    color:#111827;
-    word-wrap: break-word; /* Evita que números gigantes quebrem o layout */
+/* ============================================================
+   FOOTER — BOTÃO + RESULTADO
+   ============================================================ */
+.calculadora-footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 14px;
+    align-items: stretch;
+    background: #fafbfc;
 }
 
-.result-row{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    padding:6px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+/* ============================================================
+   BOTÃO PRINCIPAL
+   ============================================================ */
+.acoes {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
 }
 
-.calculadora-content{
-    display:flex;
-    gap:24px;
-    align-items:flex-start;
+#btn-enviar {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0 24px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.calculadora-left{
-    flex:2;
-    display:flex;
-    flex-direction:column;
-    gap:20px;
+#btn-enviar:hover {
+    background: var(--accent-hover);
 }
 
-.resultado-box{
-    flex:1;
-    min-width:280px;
-    position:sticky;
-    top:20px;
+#btn-enviar:active {
+    transform: scale(0.98);
 }
 
-.result-row:last-child { border: none; }
-
-.alerta-vagas{
-    margin-top:16px;
-    padding:12px;
-    border-radius:8px;
-    background:#fff3cd;
-    color:#856404;
-    border:1px solid #ffeeba;
-    font-size:14px;
-    font-weight:600;
+/* ============================================================
+   CAIXA DE RESULTADO
+   ============================================================ */
+.resultado-box {
+    flex: 1;
+    min-width: 0;
+    background: #fff;
+    border-radius: var(--radius-sm);
+    border: 1px dashed rgba(55, 138, 221, 0.30);
+    padding: 14px 18px;
 }
 
-/* Responsividade específica */
-@media (max-width:768px){
-    .calculadora-form{ grid-template-columns: repeat(2, 1fr); }
-    .calculadora-footer{ flex-direction: column; }
-    .acoes, .resultado-box{ width: 100%; flex: 1 1 auto; }
+.resultado-box h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
-@media (max-width:480px){
-    .calculadora-form{ grid-template-columns: 1fr; }
-    .calculadora-box{ padding: 15px; }
+#resultado {
+    font-size: 13px;
+    color: var(--muted);
+    word-wrap: break-word;
 }
 
-/* Helper */
-.hidden{ display:none !important; }
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text);
+}
+
+.result-row:last-child {
+    border: none;
+}
+
+.result-row .result-label {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.result-row .result-value {
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Alerta dentro do resultado */
+.alerta-vagas {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: #fff8e1;
+    color: #7a5800;
+    border: 1px solid #ffe082;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+@media (max-width: 860px) {
+    .calculadora-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .calculadora-form {
+        grid-template-columns: 1fr;
+    }
+
+    .calculadora-footer {
+        flex-direction: column;
+    }
+
+    .acoes {
+        width: 100%;
+    }
+
+    #btn-enviar {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .calculadora-box {
+        border-radius: var(--radius-md);
+    }
+
+    .calculadora-section,
+    .calculadora-header,
+    .calculadora-footer {
+        padding: 16px;
+    }
+
+    .aviso-minimo {
+        margin: 16px 16px 0;
+    }
+}
+
+/* ============================================================
+   FORMULÁRIO — GRID
+   ============================================================ */
+.calculadora-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 16px; /* Aumentado de 12px para 16px para desgrudar os lados dos inputs */
+    row-gap: 20px;    /* Aumentado para dar mais espaço vertical entre as linhas */
+    align-items: end;
+    padding: 12px 24px 24px 24px; /* Respiro interno perfeito para não colar na borda do card */
+}
+
+@media (max-width: 400px) {
+    .calculadora-wrapper {
+        padding: 16px 8px;
+    }
+}
+
+/* ============================================================
+   UTILITÁRIOS
+   ============================================================ */
+.hidden {
+    display: none !important;
+}

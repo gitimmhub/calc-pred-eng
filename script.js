@@ -11,6 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+document.querySelectorAll('input[type="number"]').forEach(input => {
+
+    input.addEventListener('blur', () => {
+
+        const min = parseFloat(input.min);
+
+        if (!isNaN(min) && parseFloat(input.value) < min) {
+            input.value = min;
+        }
+
+    });
+
+});
 
 // '/wordpress/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
 // 'https://hook.us2.make.com/lcvmpsvmvw4odjj2ktj7gnp48vlff12a',
@@ -96,7 +109,7 @@ async function enviarFormulario() {
     console.log(dados);
 
     const response = await fetch(
-        'https://integracao.wgbengenharia.com/webhook-test/receber-wp',
+        'https://integracao.wgbengenharia.com/webhook/receber-wp',
     {
             method: 'POST',
             headers: {
@@ -114,23 +127,23 @@ async function enviarFormulario() {
 function getDados(){
 
     const dados = {
-        largura: parseFloat(document.querySelector('.campo-largura input')?.value) || 0,
+        largura: Math.max(parseFloat(document.querySelector('.campo-largura input')?.value) || 0, 3),
 
-        profundidade: parseFloat(document.querySelector('.campo-profundidade input')?.value) || 0,
+        profundidade: Math.max(parseFloat(document.querySelector('.campo-profundidade input')?.value) || 0, 10),
 
-        garagens: parseFloat(document.querySelector('.campo-garagem input')?.value) || 0,
+        garagens: Math.max(parseFloat(document.querySelector('.campo-garagem input')?.value) || 0, 1),
 
-        andares: parseFloat(document.querySelector('.campo-andares input')?.value) || 0,
+        andares: Math.max(parseFloat(document.querySelector('.campo-andares input')?.value) || 0, 2),
 
-        dormitorios: parseFloat(document.querySelector('.campo-dormitorios input')?.value) || 0,
+        dormitorios: Math.max(parseFloat(document.querySelector('.campo-dormitorios input')?.value) || 0, 1),
 
-        banheiros: parseFloat(document.querySelector('.campo-banheiros input')?.value) || 0,
+        banheiros: Math.max(parseFloat(document.querySelector('.campo-banheiros input')?.value) || 0, 1),
 
-        lavabos: parseFloat(document.querySelector('.campo-lavabos input')?.value) || 0,
+        lavabos: Math.max(parseFloat(document.querySelector('.campo-lavabos input')?.value) || 0, 0),
 
-        sacadas: parseFloat(document.querySelector('.campo-sacadas input')?.value) || 0,
+        sacadas: Math.max(parseFloat(document.querySelector('.campo-sacadas input')?.value) || 0, 0),
 
-        elevadores: parseFloat(document.querySelector('.campo-elevador input')?.value) || 0,
+        elevadores: Math.max(parseFloat(document.querySelector('.campo-elevador input')?.value) || 0, 0),
 
         cub: document.querySelector('.campo-cub select')?.value || "normal"
     };
@@ -261,7 +274,7 @@ function calcularResultados(dados, param) {
 
     r.pavimentos = dados.andares + dados.garagens;
     r.avisoPavimentos = r.pavimentos > param.pavimentosMaximo;
-    r.andarSemGaragem = Math.max(0, dados.andares - dados.garagens);
+    r.andarSemGaragem = Math.max(0, dados.andares);
 
     if (r.pavimentos > param.pavimentosMaximo) {
 
@@ -313,7 +326,7 @@ function calcularResultados(dados, param) {
             r.areaSacada +
             r.cozinhaSala) * 1.5
     );
-    r.apartamentoAndar = Math.min(param.maximoApartamentoPorAndar, Math.max(0, Math.floor(r.areaUtilApartamentoTipo / r.tamanhoApartamento)));
+    r.apartamentoAndar = Math.min(param.maximoApartamentoPorAndar, Math.max(1, Math.floor(r.areaUtilApartamentoTipo / r.tamanhoApartamento)));
     r.qtdApartamento = r.andarSemGaragem * r.apartamentoAndar;
     r.avisoVagas = r.qtdApartamento > r.vagas;
     //r.qtdApartamento = Math.min(r.vagas, (dados.andares - dados.garagens) * r.apartamentoAndar);
@@ -383,6 +396,44 @@ function calcularResultados(dados, param) {
         `);
 
     return r;
+}
+
+const whatsappInput = document.getElementById('whatsapp');
+
+if (whatsappInput) {
+
+    whatsappInput.addEventListener('input', (e) => {
+
+        let value = e.target.value.replace(/\D/g, '');
+
+        value = value.slice(0, 11);
+
+        if (value.length > 10) {
+            value = value.replace(
+                /^(\d{2})(\d{5})(\d{0,4}).*/,
+                '($1) $2-$3'
+            );
+        } else if (value.length > 6) {
+            value = value.replace(
+                /^(\d{2})(\d{4})(\d{0,4}).*/,
+                '($1) $2-$3'
+            );
+        } else if (value.length > 2) {
+            value = value.replace(
+                /^(\d{2})(\d{0,5})/,
+                '($1) $2'
+            );
+        } else {
+            value = value.replace(
+                /^(\d*)/,
+                '($1'
+            );
+        }
+
+        e.target.value = value;
+
+    });
+
 }
 
 function exibirResultados(r) {
