@@ -4,9 +4,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!botao) return;
 
-    botao.addEventListener('click', () => {
-        main();
-        enviarFormulario();
+    botao.addEventListener('click', async () => {
+
+        if (botao.disabled) return;
+
+        try {
+
+            main();
+
+            const sucesso = await enviarFormulario();
+
+            if (!sucesso) {
+                botao.disabled = false;
+                botao.innerText = 'Gerar Projeto';
+            }
+
+        } catch (e) {
+
+            console.error(e);
+
+            botao.disabled = false;
+            botao.innerText = 'Gerar Projeto';
+        }
+
+    });
+
+    document.addEventListener('click', (e) => {
+
+        if (e.target.id === 'fechar-modal') {
+
+            document.getElementById('modal-sucesso').style.display = 'none';
+
+        }
+
     });
 
 });
@@ -24,10 +54,6 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
     });
 
 });
-
-// '/wordpress/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
-// 'https://hook.us2.make.com/lcvmpsvmvw4odjj2ktj7gnp48vlff12a',
-// '/wp-admin/admin-ajax.php?action=calc_pred_eng_send',
 
 
 async function enviarFormulario() {
@@ -108,9 +134,24 @@ async function enviarFormulario() {
 
     console.log(dados);
 
+    const ultimoEnvio = localStorage.getItem('ultimo_envio');
+
+    if (
+        ultimoEnvio &&
+        Date.now() - Number(ultimoEnvio) < 30000
+    ) {
+        alert('Aguarde alguns segundos antes de enviar novamente.');
+        return;
+    }
+
+    localStorage.setItem(
+        'ultimo_envio',
+        Date.now()
+    );
+
     const response = await fetch(
         'https://integracao.wgbengenharia.com/webhook/receber-wp',
-    {
+        {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -119,10 +160,40 @@ async function enviarFormulario() {
         }
     );
 
-    const result = await response.text();
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+    }
 
-    console.log(result);
+    let result = {};
+    try {
+        result = await response.json();
+    } catch (e) {
+        result = {};
+    }
+
+    if (response.ok) {  // <-- usa o HTTP 200 como critério principal
+        document.getElementById('modal-sucesso').style.display = 'flex';
+
+        const botao = document.getElementById('btn-enviar');
+
+        botao.disabled = true;
+        botao.innerText = 'Enviado';
+
+        return true;
+
+    } else {
+
+        const botao = document.getElementById('btn-enviar');
+
+        botao.disabled = false;
+        botao.innerText = 'Gerar Projeto';
+
+        return false;
+    }
+
+    // console.log(result);
 }
+
 
 function getDados(){
 

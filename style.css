@@ -251,6 +251,90 @@
     box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.12);
 }
 
+#modal-sucesso {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal-content {
+    background: #fff;
+    padding: 40px 36px 32px;
+    border-radius: 16px;
+    max-width: 460px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-icone {
+    width: 64px;
+    height: 64px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.modal-titulo {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 10px;
+}
+
+.modal-texto {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0 0 24px;
+}
+
+#fechar-modal {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0 28px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+#fechar-modal:hover {
+    background: var(--accent-hover);
+}
+
+#fechar-modal:active {
+    transform: scale(0.98);
+}
+
+
 .calculadora-form input[type="number"]::placeholder {
     color: #b0b7c3;
     font-size: 13px;

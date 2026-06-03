@@ -74,7 +74,7 @@ function calculadora_shortcode() {
             <div class="calculadora-form">
 
                 <div class="campo-nome campo-contato">
-                    <label>Nome</label>
+                    <label>Nsome</label>
 
                     <div class="input-icon">
                         <span>👤</span>
@@ -205,6 +205,26 @@ function calculadora_shortcode() {
         </div>
 
     </div>
+
+
+    <div id="modal-sucesso" style="display:none;">
+        <div class="modal-content">
+
+            <div class="modal-icone">✓</div>
+
+            <h2 class="modal-titulo">Projeto enviado com sucesso!</h2>
+
+            <p class="modal-texto">
+                Em breve um especialista da <strong>WGB Arquitura e Engenharia</strong> entrará em contato com você.
+            </p>
+
+            <button id="fechar-modal">Fechar</button>
+
+        </div>
+    </div>
+
+
+
 
     <?php
 
