@@ -360,13 +360,29 @@
 }
 
 /* ============================================================
+   BOTÕES
+   ============================================================ */
+
+.acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    min-width: 180px;
+}
+
+.gerapdf {
+    display: block;
+}
+
+#btn-enviar,
+#btn-pdf {
+    width: 180px;
+}
+
+/* ============================================================
    BOTÃO PRINCIPAL
    ============================================================ */
-.acoes {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-}
 
 #btn-enviar {
     background: var(--accent);
@@ -383,6 +399,7 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
 }
 
@@ -398,13 +415,12 @@
    BOTÃO PDF
    ============================================================ */
 
-.gerapdf {
-    display: flex;
-    align-items: center;
-}
-
 #btn-pdf {
-    background: #f97316;
+    background: linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c
+    );
     color: #fff;
     border: none;
     padding: 0 24px;
@@ -418,18 +434,14 @@
     white-space: nowrap;
     display: none;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-
-    box-shadow:
-            0 4px 12px rgba(249, 115, 22, 0.25);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
 }
 
 #btn-pdf:hover {
-    background: #ea580c;
     transform: translateY(-2px);
-
-    box-shadow:
-            0 8px 20px rgba(249, 115, 22, 0.35);
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
 }
 
 #btn-pdf:active {
@@ -440,7 +452,6 @@
     content: "📄";
     font-size: 16px;
 }
-
 /* ============================================================
    CAIXA DE RESULTADO
    ============================================================ */

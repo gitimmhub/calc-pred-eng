@@ -78,7 +78,7 @@ function calculadora_shortcode() {
 
                     <div class="input-icon">
                         <span>👤</span>
-                        <input type="text" id="nome" placeholder="Seu nome">
+                        <input type="text" id="nome" placeholder="Seu nome" required>
                     </div>
                 </div>
 
@@ -87,7 +87,7 @@ function calculadora_shortcode() {
 
                     <div class="input-icon">
                         <span>✉️</span>
-                        <input type="email" id="email" placeholder="seuemail@email.com">
+                        <input type="email" id="email" placeholder="seuemail@email.com" required>
                     </div>
                 </div>
 
@@ -96,7 +96,7 @@ function calculadora_shortcode() {
 
                     <div class="input-icon">
                         <span>📱</span>
-                        <input type="text" id="whatsapp" placeholder="(47) 99999-9999">
+                        <input type="text" id="whatsapp" placeholder="(47) 99999-9999" required>
                     </div>
                 </div>
 
@@ -183,9 +183,6 @@ function calculadora_shortcode() {
                         Gerar Projeto
                     </button>
 
-                </div>
-
-                <div class="gerapdf">
                     <button id="btn-pdf" style="display:none;">
                         Baixar PDF
                     </button>
@@ -281,9 +278,17 @@ function calc_pred_eng_send() {
 
     $dados = json_decode(file_get_contents('php://input'), true);
 
-    $nome = sanitize_text_field($dados['nome']);
-    $email = sanitize_email($dados['email']);
-    $whatsapp = sanitize_text_field($dados['whatsapp']);
+    $nome = sanitize_text_field($dados['nome'] ?? '');
+    $email = sanitize_email($dados['email'] ?? '');
+    $whatsapp = sanitize_text_field($dados['whatsapp'] ?? '');
+
+    if (empty($nome) || empty($email) || empty($whatsapp)) {
+
+        wp_send_json_error([
+                'message' => 'Preencha todos os campos obrigatórios.'
+        ], 400);
+
+    }
 
     $mensagem = "
 Novo lead recebido:

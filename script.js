@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (botao.disabled) return;
 
+        botao.disabled = true;
+        botao.innerText = 'Enviando...';
+
+
         try {
 
             main();
@@ -131,6 +135,11 @@ async function enviarFormulario() {
 
         aviso_vagas: resultados.avisoVagas
     };
+
+    if (!dados.nome || !dados.email || !dados.whatsapp) {
+        alert('Preencha Nome, E-mail e WhatsApp.');
+        return;
+    }
 
     console.log(dados);
 
