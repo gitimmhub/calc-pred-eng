@@ -395,6 +395,53 @@
 }
 
 /* ============================================================
+   BOTÃO PDF
+   ============================================================ */
+
+.gerapdf {
+    display: flex;
+    align-items: center;
+}
+
+#btn-pdf {
+    background: #f97316;
+    color: #fff;
+    border: none;
+    padding: 0 24px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: none;
+    align-items: center;
+    gap: 8px;
+
+    box-shadow:
+            0 4px 12px rgba(249, 115, 22, 0.25);
+}
+
+#btn-pdf:hover {
+    background: #ea580c;
+    transform: translateY(-2px);
+
+    box-shadow:
+            0 8px 20px rgba(249, 115, 22, 0.35);
+}
+
+#btn-pdf:active {
+    transform: translateY(0);
+}
+
+#btn-pdf::before {
+    content: "📄";
+    font-size: 16px;
+}
+
+/* ============================================================
    CAIXA DE RESULTADO
    ============================================================ */
 .resultado-box {
