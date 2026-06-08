@@ -34,7 +34,7 @@
 .calculadora-wrapper {
     display: flex;
     justify-content: center;
-    padding: 40px 16px;
+    padding: 24px 16px;
     background: var(--bg);
     width: 100%;
 }
@@ -44,7 +44,7 @@
    ============================================================ */
 .calculadora-box {
     width: 100%;
-    max-width: 1200px; /* Aumentado de 960px para 1200px */
+    max-width: 1200px;
     background: var(--card);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
@@ -94,7 +94,7 @@
    AVISO INFORMATIVO
    ============================================================ */
 .aviso-minimo {
-    margin: 20px 24px 0;
+    margin: 16px 20px 0;
     padding: 10px 14px;
     background: #e8f1fb;
     color: #1d5fa5;
@@ -103,8 +103,9 @@
     font-size: 13px;
     font-weight: 500;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
+    line-height: 1.5;
 }
 
 .aviso-minimo::before {
@@ -112,6 +113,7 @@
     font-size: 15px;
     font-weight: 700;
     flex-shrink: 0;
+    margin-top: 1px;
 }
 
 /* ============================================================
@@ -135,41 +137,28 @@
 }
 
 /* ============================================================
-   FORMULÁRIO — GRID
+   FORMULÁRIO — GRID (definição única, sem duplicatas)
    ============================================================ */
 .calculadora-form {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--gap);
+    column-gap: 16px;
+    row-gap: 20px;
     align-items: end;
-}
-
-/* Campos de contato sempre em linha de 3 */
-.campo-contato {
-    grid-column: span 1;
+    padding: 20px 20px 24px;
 }
 
 /* ============================================================
-   CAMPOS INDIVIDUAIS
+   LABELS
    ============================================================ */
-.calculadora-form {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-
-    column-gap: 12px;
-    row-gap: 18px; /* aumenta a altura */
-
-    align-items: end;
-}
-
 .calculadora-form label {
     font-size: 12px;
     font-weight: 600;
     color: var(--muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     display: block;
+    margin-bottom: 5px;
+    /* Removido white-space: nowrap — labels podem quebrar linha normalmente */
+    line-height: 1.4;
 }
 
 /* ============================================================
@@ -178,7 +167,7 @@
 .input-icon {
     display: flex;
     align-items: center;
-    height: 42px;
+    height: 44px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
     background: #fff;
@@ -215,6 +204,8 @@
     font-family: inherit;
     color: var(--text);
     outline: none;
+    /* Evita zoom automático no iOS (font-size mínimo 16px no input) */
+    font-size: max(14px, 16px);
 }
 
 /* ============================================================
@@ -223,12 +214,12 @@
 .calculadora-form input[type="number"],
 .calculadora-form select {
     width: 100%;
-    height: 42px;
+    height: 44px;
     padding: 0 12px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
     background: #fff;
-    font-size: 14px;
+    font-size: 16px; /* 16px evita zoom automático no iOS */
     font-family: inherit;
     color: var(--text);
     outline: none;
@@ -251,15 +242,32 @@
     box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.12);
 }
 
+.calculadora-form input[type="number"]::placeholder {
+    color: #b0b7c3;
+    font-size: 13px;
+}
+
+/* Remove setas do input number */
+.calculadora-form input[type="number"]::-webkit-inner-spin-button,
+.calculadora-form input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* ============================================================
+   MODAL DE SUCESSO
+   ============================================================ */
 #modal-sucesso {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(15, 23, 42, 0.55);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 99999;
     justify-content: center;
     align-items: center;
+    padding: 16px;
     animation: fadeIn 0.2s ease;
 }
 
@@ -270,10 +278,10 @@
 
 .modal-content {
     background: #fff;
-    padding: 40px 36px 32px;
+    padding: 36px 28px 28px;
     border-radius: 16px;
     max-width: 460px;
-    width: 90%;
+    width: 100%;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.15);
     animation: slideUp 0.25s ease;
@@ -317,41 +325,25 @@
     color: #fff;
     border: none;
     padding: 0 28px;
-    height: 44px;
+    height: 48px;
+    min-width: 120px;
     border-radius: var(--radius-sm);
     font-weight: 700;
     font-family: inherit;
     font-size: 14px;
     cursor: pointer;
     transition: background 0.15s, transform 0.1s;
+    touch-action: manipulation;
 }
 
-#fechar-modal:hover {
-    background: var(--accent-hover);
-}
-
-#fechar-modal:active {
-    transform: scale(0.98);
-}
-
-
-.calculadora-form input[type="number"]::placeholder {
-    color: #b0b7c3;
-    font-size: 13px;
-}
-
-/* Remove setas do input number */
-.calculadora-form input[type="number"]::-webkit-inner-spin-button,
-.calculadora-form input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+#fechar-modal:hover  { background: var(--accent-hover); }
+#fechar-modal:active { transform: scale(0.98); }
 
 /* ============================================================
    FOOTER — BOTÃO + RESULTADO
    ============================================================ */
 .calculadora-footer {
-    padding: 20px 24px;
+    padding: 20px;
     border-top: 1px solid var(--border);
     display: flex;
     gap: 14px;
@@ -360,36 +352,27 @@
 }
 
 /* ============================================================
-   BOTÕES
+   ÁREA DE AÇÕES (botões)
    ============================================================ */
-
 .acoes {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-    min-width: 180px;
-}
-
-.gerapdf {
-    display: block;
-}
-
-#btn-enviar,
-#btn-pdf {
+    gap: 10px;
+    align-items: stretch; /* botões ocupam a largura da coluna */
     width: 180px;
+    flex-shrink: 0;
 }
 
 /* ============================================================
    BOTÃO PRINCIPAL
    ============================================================ */
-
 #btn-enviar {
     background: var(--accent);
     color: #fff;
     border: none;
-    padding: 0 24px;
+    padding: 0 20px;
     height: 48px;
+    width: 100%;
     border-radius: var(--radius-sm);
     font-weight: 700;
     font-family: inherit;
@@ -401,30 +384,22 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    touch-action: manipulation;
 }
 
-#btn-enviar:hover {
-    background: var(--accent-hover);
-}
-
-#btn-enviar:active {
-    transform: scale(0.98);
-}
+#btn-enviar:hover  { background: var(--accent-hover); }
+#btn-enviar:active { transform: scale(0.98); }
 
 /* ============================================================
    BOTÃO PDF
    ============================================================ */
-
 #btn-pdf {
-    background: linear-gradient(
-            135deg,
-            #f97316,
-            #ea580c
-    );
+    background: linear-gradient(135deg, #f97316, #ea580c);
     color: #fff;
     border: none;
-    padding: 0 24px;
+    padding: 0 20px;
     height: 48px;
+    width: 100%;
     border-radius: var(--radius-sm);
     font-weight: 700;
     font-family: inherit;
@@ -437,21 +412,13 @@
     justify-content: center;
     gap: 8px;
     box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+    touch-action: manipulation;
 }
 
-#btn-pdf:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
-}
+#btn-pdf:hover  { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(249,115,22,0.35); }
+#btn-pdf:active { transform: translateY(0); }
+#btn-pdf::before { content: "📄"; font-size: 16px; }
 
-#btn-pdf:active {
-    transform: translateY(0);
-}
-
-#btn-pdf::before {
-    content: "📄";
-    font-size: 16px;
-}
 /* ============================================================
    CAIXA DE RESULTADO
    ============================================================ */
@@ -461,7 +428,7 @@
     background: #fff;
     border-radius: var(--radius-sm);
     border: 1px dashed rgba(55, 138, 221, 0.30);
-    padding: 14px 18px;
+    padding: 14px 16px;
 }
 
 .resultado-box h3 {
@@ -477,32 +444,38 @@
     font-size: 13px;
     color: var(--muted);
     word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .result-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+    align-items: baseline;
+    gap: 8px;
     padding: 6px 0;
     border-bottom: 1px solid var(--border);
     font-size: 13px;
     color: var(--text);
 }
 
-.result-row:last-child {
-    border: none;
-}
+.result-row:last-child { border: none; }
 
-.result-row .result-label {
+.result-row strong {
     color: var(--muted);
     font-weight: 500;
+    flex: 1;
+    min-width: 0;
 }
 
-.result-row .result-value {
+.result-row span {
     font-weight: 700;
     color: var(--accent);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
+
+.result-row .result-label { color: var(--muted); font-weight: 500; }
+.result-row .result-value { font-weight: 700; color: var(--accent); }
 
 /* Alerta dentro do resultado */
 .alerta-vagas {
@@ -514,10 +487,16 @@
     border: 1px solid #ffe082;
     font-size: 13px;
     font-weight: 600;
+    line-height: 1.5;
 }
 
 /* ============================================================
-   RESPONSIVIDADE
+   UTILITÁRIOS
+   ============================================================ */
+.hidden { display: none !important; }
+
+/* ============================================================
+   RESPONSIVIDADE — TABLET (≤ 860px)
    ============================================================ */
 @media (max-width: 860px) {
     .calculadora-form {
@@ -525,60 +504,142 @@
     }
 }
 
+/* ============================================================
+   RESPONSIVIDADE — MOBILE (≤ 600px)
+   ============================================================ */
 @media (max-width: 600px) {
-    .calculadora-form {
-        grid-template-columns: 1fr;
-    }
-
-    .calculadora-footer {
-        flex-direction: column;
-    }
-
-    .acoes {
-        width: 100%;
-    }
-
-    #btn-enviar {
-        width: 100%;
-        justify-content: center;
+    .calculadora-wrapper {
+        padding: 12px 10px 24px;
+        background: var(--bg);
     }
 
     .calculadora-box {
         border-radius: var(--radius-md);
     }
 
-    .calculadora-section,
-    .calculadora-header,
+    /* Header */
+    .calculadora-header {
+        padding: 14px 16px;
+    }
+
+    .calculadora-header h2 {
+        font-size: 14px;
+    }
+
+    .calculadora-header p {
+        font-size: 12px;
+    }
+
+    /* Aviso */
+    .aviso-minimo {
+        margin: 12px 12px 0;
+        font-size: 12px;
+    }
+
+    /* Grid vira coluna única */
+    .calculadora-form {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: 16px;
+        padding: 16px 12px 20px;
+    }
+
+    /* Labels sem corte */
+    .calculadora-form label {
+        white-space: normal;
+        font-size: 12px;
+    }
+
+    /* Inputs e selects com fonte ≥16px (evita zoom iOS) */
+    .calculadora-form input[type="number"],
+    .calculadora-form select,
+    .input-icon input {
+        font-size: 16px !important;
+        height: 48px;
+    }
+
+    .input-icon {
+        height: 48px;
+    }
+
+    /* Footer empilhado */
     .calculadora-footer {
-        padding: 16px;
+        flex-direction: column;
+        padding: 14px 12px 16px;
+        gap: 12px;
+    }
+
+    /* Botões full-width */
+    .acoes {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    #btn-enviar,
+    #btn-pdf {
+        flex: 1;
+        min-width: 140px;
+        height: 52px;
+        font-size: 15px;
+    }
+
+    /* Resultado abaixo dos botões */
+    .resultado-box {
+        width: 100%;
+    }
+
+    /* Result-row: valor pode quebrar se muito longo */
+    .result-row {
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .result-row span {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    /* Modal */
+    .modal-content {
+        padding: 28px 20px 24px;
+    }
+
+    .modal-titulo {
+        font-size: 16px;
+    }
+}
+
+/* ============================================================
+   RESPONSIVIDADE — TELAS MUITO PEQUENAS (≤ 380px)
+   ============================================================ */
+@media (max-width: 380px) {
+    .calculadora-wrapper {
+        padding: 8px 6px 20px;
+    }
+
+    .calculadora-header {
+        padding: 12px;
+    }
+
+    .calculadora-form {
+        padding: 12px 10px 16px;
+        row-gap: 14px;
+    }
+
+    .calculadora-footer {
+        padding: 12px 10px;
     }
 
     .aviso-minimo {
-        margin: 16px 16px 0;
+        margin: 10px 10px 0;
+        font-size: 11px;
     }
-}
 
-/* ============================================================
-   FORMULÁRIO — GRID
-   ============================================================ */
-.calculadora-form {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: 16px; /* Aumentado de 12px para 16px para desgrudar os lados dos inputs */
-    row-gap: 20px;    /* Aumentado para dar mais espaço vertical entre as linhas */
-    align-items: end;
-    padding: 12px 24px 24px 24px; /* Respiro interno perfeito para não colar na borda do card */
-}
-
-@media (max-width: 400px) {
-    .calculadora-wrapper {
-        padding: 16px 8px;
+    #btn-enviar,
+    #btn-pdf {
+        font-size: 14px;
+        height: 48px;
     }
-}
-
-/* ============================================================
-   UTILITÁRIOS
-   ============================================================ */
-.hidden {
-    display: none !important;
 }
