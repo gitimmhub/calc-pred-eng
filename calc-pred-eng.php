@@ -74,7 +74,7 @@ function calculadora_shortcode() {
             <div class="calculadora-form">
 
                 <div class="campo-nome campo-contato">
-                    <label>Nsome</label>
+                    <label>Nome</label>
 
                     <div class="input-icon">
                         <span>👤</span>
@@ -183,6 +183,12 @@ function calculadora_shortcode() {
                         Gerar Projeto
                     </button>
 
+                </div>
+
+                <div class="gerapdf">
+                    <button id="btn-pdf" style="display:none;">
+                        Baixar PDF
+                    </button>
                 </div>
 
                 <!-- RESULTADOS -->

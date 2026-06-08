@@ -171,13 +171,25 @@ async function enviarFormulario() {
         result = {};
     }
 
-    if (response.ok) {  // <-- usa o HTTP 200 como critério principal
+    if (response.ok) {
+
         document.getElementById('modal-sucesso').style.display = 'flex';
 
         const botao = document.getElementById('btn-enviar');
+        const btnpdf = document.getElementById('btn-pdf');
 
         botao.disabled = true;
         botao.innerText = 'Enviado';
+
+        if (result.pdf_url) {
+
+            btnpdf.style.display = 'inline-block';
+
+            btnpdf.onclick = () => {
+                window.open(result.pdf_url, '_blank');
+            };
+
+        }
 
         return true;
 
