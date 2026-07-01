@@ -159,7 +159,7 @@ async function enviarFormulario() {
     );
 
     const response = await fetch(
-        'https://integracao.wgbengenharia.com/webhook-test/receber-wp',
+        'https://integracao.wgbengenharia.com/webhook/receber-wp',
         {
             method: 'POST',
             headers: {
@@ -590,9 +590,9 @@ function exibirResultados(r) {
         <div class="result-row">
             <strong>Custo por Unidade:</strong>
             <span>R$ ${r.custoPorUnidade.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-             })}</span>
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })}</span>
         </div>
         
         ${r.avisoVagas ? `
