@@ -219,6 +219,7 @@ function calculadora_shortcode() {
 
             <p class="modal-texto">
                 Em breve um especialista da <strong>WGB Arquitura e Engenharia</strong> entrará em contato com você.
+                Verifique sua caixa de Spam!
             </p>
 
             <button id="fechar-modal">Fechar</button>

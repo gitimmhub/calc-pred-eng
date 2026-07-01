@@ -159,7 +159,7 @@ async function enviarFormulario() {
     );
 
     const response = await fetch(
-        'https://integracao.wgbengenharia.com/webhook/receber-wp',
+        'https://integracao.wgbengenharia.com/webhook-test/receber-wp',
         {
             method: 'POST',
             headers: {
