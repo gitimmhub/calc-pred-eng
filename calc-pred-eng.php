@@ -3,7 +3,7 @@
  * Plugin Name: Calc Pred Eng
  * Plugin URI: https://github.com/gitimmhub/calc-pred-eng
  * Description: Calculadora de viabilidade construtiva.
- * Version: 2.0.2
+ * Version: 2.1
  * Author: Matheus Barbiéri
  */
 
@@ -219,6 +219,9 @@ function calculadora_shortcode() {
 
             <p class="modal-texto">
                 Em breve um especialista da <strong>WGB Arquitura e Engenharia</strong> entrará em contato com você.
+            </p>
+            <p class="modal-texto">
+                Verifique sua caixa de Spam!
             </p>
 
             <button id="fechar-modal">Fechar</button>

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (botao.disabled) return;
 
         botao.disabled = true;
-        botao.innerText = 'Enviando...';
+        botao.innerText = 'Enviarndo...';
 
 
         try {
@@ -159,23 +159,38 @@ async function enviarFormulario() {
     );
 
     const response = await fetch(
-        'https://integracao.wgbengenharia.com/webhook/receber-wp',
+        'https://integracao.wgbengenharia.com/webhook-test/receber-wp',
         {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dados)
         }
     );
 
-    if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+    if (response.ok) {
+        document.getElementById('modal-sucesso').style.display = 'flex';
+
+        const blob = await response.blob();
+        const urlBlob = window.URL.createObjectURL(blob);
+
+        const botao = document.getElementById('btn-enviar');
+        const btnpdf = document.getElementById('btn-pdf');
+        btnpdf.style.display = 'inline-block';
+        btnpdf.onclick = () => {
+            window.open(urlBlob, '_blank');
+        };
+
+        botao.disabled = true;
+        botao.innerText = 'Enviado';
+
+        return true;
     }
 
     let result = {};
     try {
         result = await response.json();
+        console.log(result);
+        alert(JSON.stringify(result));
     } catch (e) {
         result = {};
     }
@@ -188,7 +203,9 @@ async function enviarFormulario() {
         const btnpdf = document.getElementById('btn-pdf');
 
         botao.disabled = true;
+        console.log('Definindo texto para Enviado', botao);
         botao.innerText = 'Enviado';
+        console.log('Texto atual do botão:', botao.innerText, botao);
 
         if (result.pdf_url) {
 
