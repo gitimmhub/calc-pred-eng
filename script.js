@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (botao.disabled) return;
 
         botao.disabled = true;
-        botao.innerText = 'Enviarndo...';
+        botao.innerText = 'Enviando...';
 
 
         try {
